@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>BDOT10k powiat węgrowski</title>
+	  
+      <link rel = "stylesheet" href = "http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css"/>
+      <script src = "http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+	  
+		<style>
+		html, body {
+			height: 100%;
+			margin: 0;
+		}
+		.leaflet-container {
+			height: 400px;
+			width: 600px;
+			max-width: 100%;
+			max-height: 100%;
+		}
+	</style>
+   </head>
+
+   <body>
+		<h1>Elementy BDOT10k na mapie powiatu węgrowskiego</h1>
+      <div id = "map" style = "width: 900px; height: 580px"></div>
+      <script>
+         // Creating map options
+         var mapOptions = {
+            center: [52.4408571, 21.911535],
+            zoom: 10
+         }
+         
+         // Creating a map object
+         var map = new L.map('map', mapOptions);
+         
+         // Creating a Layer object
+         var layer = new L.TileLayer('http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png');
+        
+		var BUBD_A = L.tileLayer.wms("http://localhost:8080/geoserver/ows?service=WMS&version=1.3.0&request=GetCapabilities?", {
+		layers: 'BUBD_A',
+		format: 'image/png',
+		transparent: true,
+		});
+		var OISZ_A = L.tileLayer.wms("http://localhost:8080/geoserver/ows?service=WMS&version=1.3.0&request=GetCapabilities?", {
+		layers: 'OISZ_A',
+		format: 'image/png',
+		transparent: true,
+		});		
+		var OIPR_P = L.tileLayer.wms("http://localhost:8080/geoserver/ows?service=WMS&version=1.3.0&request=GetCapabilities?", {
+		layers: 'OIPR_P',
+		format: 'image/png',
+		transparent: true,
+		});
+		var SKJZ_L = L.tileLayer.wms("http://localhost:8080/geoserver/ows?service=WMS&version=1.3.0&request=GetCapabilities?", {
+		layers: 'SKJZ_L',
+		format: 'image/png',
+		transparent: true,
+		});		
+		var SWRM_L = L.tileLayer.wms("http://localhost:8080/geoserver/ows?service=WMS&version=1.3.0&request=GetCapabilities?", {
+		layers: 'SWRM_L',
+		format: 'image/png',
+		transparent: true,
+		});		
+		
+		
+		
+		var marker = new L.Marker([52.3991168, 22.0176927]).bindPopup('Węgrów');
+         // Adding layer to the map
+         map.addLayer(layer);
+		 map.addLayer(BUBD_A);
+		 map.addLayer(OISZ_A);
+		 map.addLayer(OIPR_P);
+		 map.addLayer(SKJZ_L);
+		 map.addLayer(SWRM_L);
+		 marker.addTo(map);
+		 
+		 const baseLayers = {
+		'Budynki':BUBD_A,
+		'Szuwary':OISZ_A,
+		'Obiekty przyrodnicze':OIPR_P,
+		'Jezdnia':SKJZ_L,
+		'Rów melioracyjny':SWRM_L
+		};
+
+		const layerControl = L.control.layers(baseLayers).addTo(map);
+		L.control.layers(null, mixed).addTo(map);
+		
+      </script>
+   </body>
+   
+</html>
